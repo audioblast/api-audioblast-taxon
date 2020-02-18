@@ -40,7 +40,7 @@ function limits_update_filter($qa, $activity, $value) {
 
 function limits_init($qa) {
   $qa["limits"] = array(
-    "value" => 100,
+    "value" => 10,
     "page" => 1
   );
   return($qa);
