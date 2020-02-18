@@ -20,7 +20,7 @@ function limits_result_count($qa, $count) {
 
   $content .= "<div id='pager'>";
   for ($i =1; $i <=$page_count; $i++) {
-    $content .= '<a class="pager-page" href="" onclick="updateFilter(\'limits\', \'page\', '.$i.');">'.$i.'</a> ';
+    $content .= '<a class="pager-page" onclick="updateFilter(\'limits\', \'page\', \''.$i.'\');">'.$i.'</a> ';
   }
   $content .= "</div>";
 
@@ -47,7 +47,7 @@ function limits_init($qa) {
 }
 
 function limits_html($qa) {
-  $limits = array(25,50,100);
+  $limits = array(10,25,50);
   $output  = '<div id="filter_limits" class="filter">';
   $output .= '<h2>Show results</h2>';
   foreach ($limits as $limit) {
@@ -57,8 +57,8 @@ function limits_html($qa) {
   }
   $output .= '</div>';
 
-  $output.= "<script>alert('Hi');</script>";
-  return($output);
+  $qa["filter_html"][] = $output;
+  return($qa);
 }
 
 function limits_limits($sql, $qa) {

@@ -22,7 +22,9 @@ if (!isset($qa["init"])) {
 
 //Array of plugins to include
 $plugins = array(
-  "limits" => "limits.php"
+  "basic" => "basic.php",
+  "limits" => "limits.php",
+  "taxonscope" => "taxonscope.php"
 );
 
 //Get info about plugins that is needed to process them
@@ -36,21 +38,37 @@ foreach ($plugins as $name => $path) {
   }
 }
 
-if (isset($qa["update filter"])) {
-  $plugin = $qa["update filter"]["plugin"]."_update_filter";
-  $qa = $plugin($qa, $qa["update filter"]["activity"], $qa["update filter"]["value"]);
-  unset($qa["update filter"]);
+if (isset($qa["updatefilter"])) {
+  $plugin = $qa["updatefilter"]["plugin"]."_update_filter";
+  $qa = $plugin($qa, $qa["updatefilter"]["activity"], $qa["updatefilter"]["value"]);
+  //unset($qa["updatefilter"]);
 }
 
 foreach ($plugins as $name => $path) {
   if (isset($plugins[$name]["filter html"])) {
     $filt = $plugins[$name]["filter html"];
-    $qa["filter_html"][] = $filt($qa);
+    $qa = $filt($qa);
   }
 }
 
 //Base query that is modifed by the plugins
 $query = "SELECT SQL_CALC_FOUND_ROWS * FROM `audioblast-traits`.`taxa`";
+
+//Process WHERE filters
+$num_wheres = 0;
+foreach ($plugins as $name => $data) {
+  if (isset($data["where"])) {
+    $func = $data["where"];
+    $res = $func($qa);
+    if ($res != false) {
+      if ($num_wheres > 0) { $query .= " AND "; } else { $query .= " WHERE "; }
+      $query .= $res;
+      $num_wheres++;
+    }
+  }
+}
+
+$query .= " ORDER BY taxa.taxon";
 
 //Only allow one plugin to set a limit
 $num_limits = 0;
@@ -65,6 +83,8 @@ foreach ($plugins as $name => $data) {
     $num_limits++;
   }
 }
+
+//print $query;exit;
 
 //Execute modified query
 $query .= "; SELECT FOUND_ROWS();";
