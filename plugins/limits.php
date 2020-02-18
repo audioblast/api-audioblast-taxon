@@ -20,7 +20,7 @@ function limits_result_count($qa, $count) {
 
   $content .= "<div id='pager'>";
   for ($i =1; $i <=$page_count; $i++) {
-    $content .= '<a onclick="updateFilter(\'limits\', \'page\', '.$i.');">'.$i.'</a>';
+    $content .= '<a class="pager-page" href="" onclick="updateFilter(\'limits\', \'page\', '.$i.');">'.$i.'</a> ';
   }
   $content .= "</div>";
 
@@ -40,23 +40,22 @@ function limits_update_filter($qa, $activity, $value) {
 
 function limits_init($qa) {
   $qa["limits"] = array(
-    "value" => 25,
+    "value" => 100,
     "page" => 1
   );
   return($qa);
 }
 
 function limits_html($qa) {
+  $limits = array(25,50,100);
   $output  = '<div id="filter_limits" class="filter">';
   $output .= '<h2>Show results</h2>';
-  $output .= '<input type="radio" id="limits25" name="limits" value="25" ';
-  if ($qa["limits"]["value"] == 25) {$output .= "checked ";}
-  $output .= 'onclick="updateFilter(\'limits\', \'value\', 25);"><label for="25">25</label><br>';
-  $output .= '<input type="radio" id="limits50" name="limits" value="50" ';
-  if ($qa["limits"]["value"] == 50) {$output .= "checked ";}
-  $output .= 'onclick="updateFilter(\'limits\', \'value\', 50);"><label for="50">50</label><br>';
+  foreach ($limits as $limit) {
+    $output .= '<input type="radio" id="limits'.$limit.'" name="limits" value="'.$limit.'" ';
+    if ($qa["limits"]["value"] == $limit) {$output .= "checked ";}
+    $output .= 'onclick="updateFilter(\'limits\', \'value\', '.$limit.');"><label for="'.$limit.'">'.$limit.'</label><br>';
+  }
   $output .= '</div>';
-
 
   $output.= "<script>alert('Hi');</script>";
   return($output);

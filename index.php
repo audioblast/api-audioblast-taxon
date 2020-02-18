@@ -34,16 +34,19 @@ foreach ($plugins as $name => $path) {
     $init = $name."_init";
     $qa = $init($qa);
   }
-  if (isset($plugins[$name]["filter html"])) {
-    $filt = $plugins[$name]["filter html"];
-    $qa["filter_html"][] = $filt($qa);
-  }
 }
 
 if (isset($qa["update filter"])) {
   $plugin = $qa["update filter"]["plugin"]."_update_filter";
   $qa = $plugin($qa, $qa["update filter"]["activity"], $qa["update filter"]["value"]);
   unset($qa["update filter"]);
+}
+
+foreach ($plugins as $name => $path) {
+  if (isset($plugins[$name]["filter html"])) {
+    $filt = $plugins[$name]["filter html"];
+    $qa["filter_html"][] = $filt($qa);
+  }
 }
 
 //Base query that is modifed by the plugins
