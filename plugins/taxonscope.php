@@ -46,6 +46,7 @@ function taxonscope_html($qa) {
   $output  = '<div id="filter_taxonscope" class="filter">';
   $output .= '<h2>Taxonomic Scope</h2>';
   $output .= '<input type="text" id="taxonscope-text" name="taxonscope-text" value="'.$qa["taxonscope"]["taxon"].'">';
+  $output .= '<input type="button" value="Reset" onclick="updateFilter(\'taxonscope\',\'scope\', \'\');";>';
   $output .= '</div>';
 
   $qa["filter_html"][] = $output;
@@ -73,11 +74,10 @@ function taxonscope_html($qa) {
           $("#taxonscope-text").val(ui.item.label); // display the selected text
           updateFilter("taxonscope", "scope", ui.item.label);
           return false;
-       },
-       appendTo: $( "#filter_taxonscope")
-     })
-
-   });
+         },
+         appendTo: $( "#filter_taxonscope")
+       })
+     });
   ';
   return($qa);
 }
