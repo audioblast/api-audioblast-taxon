@@ -7,7 +7,10 @@ function basic_info() {
     "desc" => "Some common filters",
     "auth" => "edwbaker@gmail.com",
     "filter html" => "basic_html",
-    "where" => "basic_where"
+    "where" => "basic_where",
+    "tabs" => array(
+      "Traits" => "basic_tab_traits"
+    )
   ));
 }
 

@@ -23,8 +23,10 @@ if (!isset($qa["init"])) {
 //Array of plugins to include
 $plugins = array(
   "basic" => "basic.php",
+  "checklist" => "checklist.php",
   "limits" => "limits.php",
-  "taxonscope" => "taxonscope.php"
+  "taxonscope" => "taxonscope.php",
+  "frequency" => "frequency.php"
 );
 
 //Get info about plugins that is needed to process them
@@ -41,7 +43,7 @@ foreach ($plugins as $name => $path) {
 if (isset($qa["updatefilter"])) {
   $plugin = $qa["updatefilter"]["plugin"]."_update_filter";
   $qa = $plugin($qa, $qa["updatefilter"]["activity"], $qa["updatefilter"]["value"]);
-  //unset($qa["updatefilter"]);
+  unset($qa["updatefilter"]);
 }
 
 foreach ($plugins as $name => $path) {
@@ -108,8 +110,20 @@ foreach ($plugins as $name => $path) {
   }
 }
 
+
+$tabs = array();
+foreach ($taxa as $row) {
+  foreach($plugins as $name => $data) {
+    if (isset($plugins[$name]["tab"])) {
+      $func = $plugins[$name]["tab"];
+      $tabs[str_replace(" ", "_", $row["taxon"])][] = $func($qa, $row["taxon"]);
+    }
+  }
+}
+
 $qa["taxa"] = $taxa;
 $qa["init"] = false;
-echo json_encode($qa);
+$qa["tabs"] = $tabs;
 
+echo json_encode($qa);
 exit;
