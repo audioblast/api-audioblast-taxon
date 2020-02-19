@@ -19,15 +19,16 @@ function limits_result_count($qa, $count) {
   $rec_start = ($page - 1)  * $qa["limits"]["value"] + 1;
   $rec_end   = ($page) * $qa["limits"]["value"];
 
-  $content = "<div class='limits-row-count'>Page $page of $page_count (records $rec_start to $rec_end of $count)</div>";
+  $summary = "<div class='limits-row-count'>Page $page of $page_count (records $rec_start to $rec_end of $count)</div>";
 
-  $content .= "<div class='pager'>";
+  $pager = "<div class='pager'>";
   for ($i =1; $i <=$page_count; $i++) {
-    $content .= '<a class="pager-page" onclick="updateFilter(\'limits\', \'page\', \''.$i.'\');">'.$i.'</a> ';
+    $pager .= '<a class="pager-page" onclick="updateFilter(\'limits\', \'page\', \''.$i.'\');">'.$i.'</a> ';
   }
-  $content .= "</div>";
+  $pager .= "</div>";
 
-  $qa["results_head_html"][] = $content;
+  $qa["results_head_html"][] = $summary . $pager;
+  $qa["results_foot_html"][] = $pager . $summary;
   return($qa);
 }
 
