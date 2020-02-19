@@ -13,6 +13,7 @@ function checklist_info() {
 
 function checklist_where($qa) {
   $sql = "";
+  $n = 0;
   if ($qa["checklist"]["uk_orthoptera"] != "") {
     $sql .= " taxon IN (
       'Leptophyes punctatissima',
@@ -63,8 +64,10 @@ function checklist_where($qa) {
       'Pseudochorthippus parallelus',
       'Euchorthippus elegantulus'
     )";
+    $n++;
   }
   if ($qa["checklist"]["uk_orthoptera_breeding"] != "") {
+    if ($n > 0) {$sql .= " AND ";}
     $sql .= " taxon IN (
       'Leptophyes punctatissima',
       'Acheta domesticus',
@@ -107,15 +110,9 @@ function checklist_where($qa) {
 function checklist_update_filter($qa, $activity, $value) {
   if ($activity == "uk_orthoptera") {
     $qa["checklist"]["uk_orthoptera"] = $value;
-    if ($value != "") {
-      $qa["checklsit"]["uk_orthoptera_breeding"] = "";
-    }
   }
   if ($activity == "uk_orthoptera_breeding") {
     $qa["checklist"]["uk_orthoptera_breeding"] = $value;
-    if ($value != ""){
-      $qa["checklist"]["uk_orthoptera"] = "";
-    }
   }
   return($qa);
 }
@@ -130,7 +127,7 @@ function checklist_init($qa) {
 
 function checklist_html($qa) {
   $output  = '<div id="filter_basic" class="filter">';
-  $output .= '<h2>checklist</h2>';
+  $output .= '<h2>Checklist</h2>';
 
   $output .= '<input type="checkbox" id="checklist-uk_orthoptera" name="checklist-uk_orthoptera" '.$qa["checklist"]["uk_orthoptera"].'">';
   $output .= '<label for="checklist-uk_orthoptera">UK Orthoptera</label><br/>';

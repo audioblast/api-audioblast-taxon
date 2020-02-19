@@ -124,6 +124,6 @@ foreach ($taxa as $row) {
 $qa["taxa"] = $taxa;
 $qa["init"] = false;
 $qa["tabs"] = $tabs;
-
+$qa["query"] = $query;
 echo json_encode($qa);
 exit;

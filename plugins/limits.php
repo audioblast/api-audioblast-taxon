@@ -16,9 +16,12 @@ function limits_result_count($qa, $count) {
   $page = $qa["limits"]["page"];
   $page_count = ceil($count / $qa["limits"]["value"]);
 
-  $content = "<div id='limits-row-count'>Page $page of $page_count</div>";
+  $rec_start = ($page - 1)  * $qa["limits"]["value"] + 1;
+  $rec_end   = ($page) * $qa["limits"]["value"];
 
-  $content .= "<div id='pager'>";
+  $content = "<div class='limits-row-count'>Page $page of $page_count (records $rec_start to $rec_end of $count)</div>";
+
+  $content .= "<div class='pager'>";
   for ($i =1; $i <=$page_count; $i++) {
     $content .= '<a class="pager-page" onclick="updateFilter(\'limits\', \'page\', \''.$i.'\');">'.$i.'</a> ';
   }
@@ -58,6 +61,7 @@ function limits_html($qa) {
   $output .= '</div>';
 
   $qa["filter_html"][] = $output;
+  $qa["css"][] = _limits_css();
   return($qa);
 }
 
@@ -65,4 +69,14 @@ function limits_limits($sql, $qa) {
   $offset =  ($qa["limits"]["page"] - 1) * $qa["limits"]["value"];
   $sql .= " LIMIT ".$offset.", ".$qa["limits"]["value"];
   return($sql);
+}
+
+function _limits_css() {
+  $css = "
+  .limits-row-count, .pager {
+    width: 100%;
+    text-align: center;
+  }
+  ";
+  return($css);
 }
