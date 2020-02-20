@@ -15,7 +15,7 @@ function frequency_info() {
 function frequency_tab($qa, $taxon) {
   $taxon = str_replace(" ", "_", $taxon);
   $output  = "<div id='tab-frequency-$taxon' class='tab-frequency'>";
-  $output .= "</div";
+  $output .= "</div>";
   return($output);
 }
 
@@ -61,16 +61,24 @@ function frequency_init($qa) {
 function frequency_html($qa) {
   $output  = '<div id="filter_frequency" class="filter">';
   $output .= '<h2>Frequency</h2>';
-  $output .= '<input type="text" id="frequency-text" name="frequency-text" value="'.$qa["frequency"]["freq"].'">kHz';
-  $output .= '<input type="button" value="Submit" onclick="updateFilter(\'frequency\',\'freq\', document.getElementById(\'frequency-text\').value);";><br/>';
 
-  $output .= '+/-<input type="text" id="margin-text" name="margin-text" value="'.$qa["frequency"]["margin"].'">%';
-  $output .= '<input type="button" value="Submit" onclick="updateFilter(\'frequency\',\'margin\', document.getElementById(\'margin-text\').value);";>';
- 
-
+  $output .= '<table>';
+  $output .= '<tr>';
+  $output .= '<td></td><td><input type="text" id="frequency-text" name="frequency-text" value="'.$qa["frequency"]["freq"].'">kHz</td>';
+  $output .= '<td><input type="button" value="Submit" onclick="updateFilter(\'frequency\',\'freq\', document.getElementById(\'frequency-text\').value);";></td>';
+  $output .= '</tr><tr>';
+  $output .= '<td>+/-</td><td><input type="text" id="margin-text" name="margin-text" value="'.$qa["frequency"]["margin"].'">%</td>';
+  $output .= '<td><input type="button" value="Submit" onclick="updateFilter(\'frequency\',\'margin\', document.getElementById(\'margin-text\').value);";></td>';
+  $output .= '</tr></table>';
   $output .= '</div>';
 
   $qa["filter_html"][] = $output;
+
+  $qa["css"][] = "
+    .filter-frequency input {
+      width:auto;
+    }
+  ";
 
   $qa["javascript"][] = '
     $(".tab-frequency").each(function() {

@@ -26,7 +26,9 @@ $plugins = array(
   "checklist" => "checklist.php",
   "limits" => "limits.php",
   "taxonscope" => "taxonscope.php",
-  "frequency" => "frequency.php"
+  "frequency" => "frequency.php",
+  "decorators" => "decorators.php",
+  "traits" => "traits.php"
 );
 
 //Get info about plugins that is needed to process them

@@ -23,7 +23,11 @@ function limits_result_count($qa, $count) {
 
   $pager = "<div class='pager'>";
   for ($i =1; $i <=$page_count; $i++) {
-    $pager .= '<a class="pager-page" onclick="updateFilter(\'limits\', \'page\', \''.$i.'\');">'.$i.'</a> ';
+    if ($i == $page) {
+      $pager .= '<a class="pager-page current-page" onclick="updateFilter(\'limits\', \'page\', \''.$i.'\');">'.$i.'</a> ';
+    } else {
+      $pager .= '<a class="pager-page" onclick="updateFilter(\'limits\', \'page\', \''.$i.'\');">'.$i.'</a> ';
+    }
   }
   $pager .= "</div>";
 
@@ -51,7 +55,7 @@ function limits_init($qa) {
 }
 
 function limits_html($qa) {
-  $limits = array(10,25,50);
+  $limits = array(10,25,50,100);
   $output  = '<div id="filter_limits" class="filter">';
   $output .= '<h2>Show results</h2>';
   foreach ($limits as $limit) {
@@ -74,10 +78,21 @@ function limits_limits($sql, $qa) {
 
 function _limits_css() {
   $css = "
-  .limits-row-count, .pager {
-    width: 100%;
-    text-align: center;
-  }
+    .limits-row-count, .pager {
+      width: 100%;
+      text-align: center;
+      margin:5px;
+    }
+    .pager-page {
+      cursor:pointer;
+      color:blue;
+      text-decoration:underline;
+    }
+    .current-page {
+      cursor:text;
+      color:black;
+      text-decoration:none;
+    }
   ";
   return($css);
 }
