@@ -26,6 +26,10 @@ function traits_where($qa) {
     $output = "";
     $count = 0;
     foreach ($qa["traits"] as $key => $data) {
+      if ($data["op"] == 'contains') {
+        $data["op"] = 'LIKE';
+        $data["value"] = '%'.$data["value"].'%';
+      }
       if ($count > 0) { $output .= " AND"; }
       $output .= " taxon IN (SELECT `Taxonomic.name`
                             FROM `traits-taxa`
@@ -74,7 +78,7 @@ function traits_html($qa) {
     $output .= '</div></div>';
   }
 
-  $options = array('<', '>', '=');
+  $options = array('<', '>', '=', 'contains');
 
   $output .= '<input type="text" id="traits-text" name="traits-text" value=""><br/>';
 
