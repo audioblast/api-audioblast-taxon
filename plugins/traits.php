@@ -30,9 +30,13 @@ function traits_where($qa) {
       $output .= " taxon IN (SELECT `Taxonomic.name`
                             FROM `traits-taxa`
                             WHERE Trait = '".$data["trait"]."'
-                             AND (
-                               Value ".$data["op"]." ".$data["value"]."
-                             )
+                             AND (";
+      if (is_numeric($data["value"])) {
+        $output .= "            Value ".$data["op"]." ".$data["value"];
+      } else {
+        $output .= "            Value ".$data["op"]." '".$data["value"]."'";
+      }
+      $output .= "            )
       )";
       $count++;
    }
