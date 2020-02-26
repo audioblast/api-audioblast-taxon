@@ -79,7 +79,7 @@ function decorators_html($qa) {
             var output = "<h3>Recordings</h3>";
             output += "<div class=\'tab-content\'>";
             res.forEach(function(item, index) {
-             output += "<a href=\'"+item["file"]+"\'>"+item["Title"]+"</a><br/>";
+            output += "<object data=\'https://api.audioblast.org/embed/?source="+item["source"]+"&id="+item["id"]+"&embed=iframe&player=jplayer\' style=\'width:680px;\'></object>";
             });
             output += "</div>";
 
