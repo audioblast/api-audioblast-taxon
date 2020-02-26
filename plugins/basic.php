@@ -60,7 +60,7 @@ function basic_init($qa) {
   $qa["basic"] = array(
     "traits" => "checked=checked",
     "speciesGroup" => "checked=checked",
-    "silent" => "",
+    "silent" => "checked=checked",
     "recordings" => ""
   );
   return($qa);
