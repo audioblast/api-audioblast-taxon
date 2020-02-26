@@ -76,7 +76,7 @@ function decorators_html($qa) {
           if(req.status === 200) {
             var res = JSON.parse(req.responseText);
             if (res.length == 0) { return(false); }
-            var output = "<h3>Recordings</h3>";
+            var output = "<h3>Recordings (" + res.length + ")</h3>";
             output += "<div class=\'tab-content\'>";
             res.forEach(function(item, index) {
             output += "<object data=\'https://api.audioblast.org/embed/?source="+item["source"]+"&id="+item["id"]+"&embed=iframe&player=jplayer\' style=\'width:680px;\'></object>";
