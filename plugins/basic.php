@@ -27,6 +27,14 @@ function basic_where($qa) {
     if ($sql != "") { $sql .= " AND"; }
     $sql .= " taxon IN (SELECT DISTINCT taxon FROM recordings)";
   }
+  if ($qa["basic"]["silent"] != "") {
+    if ($sql != "") {  $sql .= " AND"; }
+   $sql .= " taxon NOT IN (SELECT DISTINCT `Taxonomic.name`
+                         FROM `traits-taxa`
+                         WHERE Trait = 'Sound Production Method'
+                         AND Value = 'None')
+   ";
+  }
   if ($sql == "") {return(false);}
   return($sql);
 }
@@ -42,6 +50,9 @@ function basic_update_filter($qa, $activity, $value) {
   if ($activity == "recordings") {
     $qa["basic"]["recordings"] = $value;
   }
+  if ($activity == "silent") {
+    $qa["basic"]["silent"] = $value;
+  }
   return($qa);
 }
 
@@ -49,6 +60,7 @@ function basic_init($qa) {
   $qa["basic"] = array(
     "traits" => "checked=checked",
     "speciesGroup" => "checked=checked",
+    "silent" => "checked=checked",
     "recordings" => ""
   );
   return($qa);
@@ -64,6 +76,10 @@ function basic_html($qa) {
 
   $output .= '<input type="checkbox" id="basic-speciesGroup" name="basic-speciesGroup" '.$qa["basic"]["speciesGroup"].'">';
   $output .= '<label for="basic-speciesGroup">Species group taxa</label>';
+  $output .= '<br>';
+
+  $output .= '<input type="checkbox" id="basic-silent" name="basic-silent" '.$qa["basic"]["silent"].'">';  
+  $output .= '<label for="basic-silent">Exclude silent taxa</label>';
   $output .= '<br>';
 
   $output .= '<input type="checkbox" id="basic-recordings" name="basic-recordings" '.$qa["basic"]["recordings"].'">';
@@ -85,6 +101,14 @@ function basic_html($qa) {
         updateFilter("basic", "speciesGroup", "checked=checked");
       } else {
         updateFilter("basic", "speciesGroup", "");
+      }
+    });
+
+     $("#basic-silent").click(function() {
+      if ($(this).is(":checked")) {
+        updateFilter("basic", "silent", "checked=checked");
+      } else {
+        updateFilter("basic", "silent", "");
       }
     });
 
