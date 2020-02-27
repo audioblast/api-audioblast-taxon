@@ -129,7 +129,7 @@ $qa["tabs"] = $tabs;
 $qa["query"] = $query;
 echo json_encode($qa);
 
-$stats = "INSERT INTO `audioblast-traits`.`stats` (tool, agent, datetime) VALUES('audioblast-taxon', 'web', ".now().")";
-$mysqli_query($db, $query);
+$stats = "INSERT INTO `audioblast-traits`.`stats` (tool, agent, datetime) VALUES('audioblast-taxon', 'web', now())";
+mysqli_query($db, $stats);
 
 exit;
