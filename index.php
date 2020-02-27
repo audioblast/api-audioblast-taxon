@@ -88,7 +88,6 @@ foreach ($plugins as $name => $data) {
   }
 }
 
-//print $query;exit;
 
 //Execute modified query
 $query .= "; SELECT FOUND_ROWS();";
@@ -129,7 +128,5 @@ $qa["tabs"] = $tabs;
 $qa["query"] = $query;
 echo json_encode($qa);
 
-$stats = "INSERT INTO `audioblast-traits`.`stats` (tool, agent, datetime) VALUES('audioblast-taxon', 'web', now())";
-mysqli_query($db, $stats);
 
 exit;
